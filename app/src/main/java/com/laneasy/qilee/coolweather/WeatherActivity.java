@@ -77,21 +77,7 @@ public class WeatherActivity extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         setContentView(R.layout.activity_weather);
-        weatherLayout = (ScrollView) findViewById(R.id.weather_layout);
-        titleCity = (TextView) findViewById(R.id.title_city);
-        titleUpdateTime = (TextView) findViewById(R.id.title_update_time);
-        degreeText = (TextView) findViewById(R.id.degree_text);
-        weatherInfoText = (TextView) findViewById(R.id.weather_info_text);
-        forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
-        aqiText = (TextView) findViewById(R.id.aqi_text);
-        pm25Text = (TextView) findViewById(R.id.pm25_text);
-        comfortText = (TextView) findViewById(R.id.comfort_text);
-        carWashText = (TextView) findViewById(R.id.car_wash_text);
-        sportText = (TextView) findViewById(R.id.sport_text);
-        bingPicImg = (ImageView) findViewById(R.id.bing_pic_img);
-        swipRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        drawLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        navButton = (Button) findViewById(R.id.nav_button);
+        initView();
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         String weatherString = prefs.getString("weather", null);
@@ -112,6 +98,18 @@ public class WeatherActivity extends AppCompatActivity {
             weatherLayout.setVisibility(View.INVISIBLE);
             requestWeather(mWeatherId);
         }
+
+        refreshWeatherData(prefs);
+
+        navButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawLayout.openDrawer(GravityCompat.START);
+            }
+        });
+    }
+
+    private void refreshWeatherData(final SharedPreferences prefs) {
         swipRefresh.setOnRefreshListener(new SwipeRefreshLayout
         .OnRefreshListener(){
 
@@ -123,13 +121,24 @@ public class WeatherActivity extends AppCompatActivity {
                 requestWeather(mWeatherId);
             }
         });
+    }
 
-        navButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawLayout.openDrawer(GravityCompat.START);
-            }
-        });
+    private void initView() {
+        weatherLayout = (ScrollView) findViewById(R.id.weather_layout);
+        titleCity = (TextView) findViewById(R.id.title_city);
+        titleUpdateTime = (TextView) findViewById(R.id.title_update_time);
+        degreeText = (TextView) findViewById(R.id.degree_text);
+        weatherInfoText = (TextView) findViewById(R.id.weather_info_text);
+        forecastLayout = (LinearLayout) findViewById(R.id.forecast_layout);
+        aqiText = (TextView) findViewById(R.id.aqi_text);
+        pm25Text = (TextView) findViewById(R.id.pm25_text);
+        comfortText = (TextView) findViewById(R.id.comfort_text);
+        carWashText = (TextView) findViewById(R.id.car_wash_text);
+        sportText = (TextView) findViewById(R.id.sport_text);
+        bingPicImg = (ImageView) findViewById(R.id.bing_pic_img);
+        swipRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        drawLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        navButton = (Button) findViewById(R.id.nav_button);
     }
 
     /**
